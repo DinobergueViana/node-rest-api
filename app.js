@@ -2,6 +2,14 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+
+// conecting to database
+mongoose.connect(
+  'mongodb+srv://dinobergviana:' + 
+  process.env.MONGO_ATLAS_PW + 
+  '@node-api-1.2n3wy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+)
 
 // importing routes
 const productsRoutes = require('./api/routes/products');
@@ -13,7 +21,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 // this line will fix possibles cors problems
-app.use((req, res) => {
+app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header(
     'Access-Control-Allow-Headers', 
